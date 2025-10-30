@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Quebra-Cabeça de Senha</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+    .container {
+      width: 300px;
+      margin: 0 auto;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+    button {
+      padding: 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>quebra-cabeca de JN</h2>
+    <p>Fase 1: Digite uma senha com 4 letras e 3 numero:</p>
+    <input type="text" id="password" placeholder="senha">
+    <button onclick="checkPassword()">Enviar</button>
+    <p id="message"></p>
+
+    <div id="phase2" style="display: none;">
+      <p>Fase 2: Adivinhe o pais:</p>
+      <input type="text" id="countryGuess" placeholder="Samba">
+      <button onclick="checkCountryGuess()">Enviar</button>
+      <p id="countryMessage"></p>
+    </div>
+
+    <div id="phase3" style="display: none;">
+      <p>Fase 3: Inscreva-se no TikTok para continuar:</p>
+      <a href="https://www.tiktok.com/@jnzin148" target="_blank">Inscrever-se</a>
+      <input type="file" id="screenshot" accept="image/*">
+      <button onclick="checkScreenshot()">Enviar</button>
+      <p id="screenshotMessage"></p>
+    </div>
+
+    <div id="phase4" style="display: none;">
+      <p>Fase 4: Realize o cálculo:</p>
+      <p id="calculation"></p>
+      <input type="text" id="result" placeholder="Resultado">
+      <button onclick="checkCalculation()">Enviar</button>
+      <p id="calculationMessage"></p>
+    </div>
+
+    <div id="phase5" style="display: none;">
+      <p>Fase 5: Qual O SG de Neymar?</p>
+      <input type="text" id="goals" placeholder="Gols">
+      <button onclick="checkGoals()">Enviar</button>
+      <p id="goalsMessage"></p>
+    </div>
+  </div>
+
+  <script>
+    var password = "";
+    var calculation = "";
+
+    function checkPassword() {
+      password = document.getElementById("password").value;
+      var message = document.getElementById("message");
+
+      if (/^[a-zA-Z]{4}[0-9]{3}$/.test(password)) {
+        message.innerHTML = "Senha correta!";
+        document.getElementById("phase2").style.display = "block";
+      } else {
+        message.innerHTML = "Senha incorreta!";
+      }
+    }
+
+    function checkCountryGuess() {
+      var countryGuess = document.getElementById("countryGuess").value;
+      var countryMessage = document.getElementById("countryMessage");
+
+      // Generate random incorrect options
+      var incorrectOptions = generateIncorrectOptions();
+
+      // Check if the guess matches the correct option
+      if (countryGuess.toLowerCase() === "brasil") {
+        countryMessage.innerHTML = "Resposta correta!";
+        document.getElementById("phase2").style.display = "none";
+        document.getElementById("phase3").style.display = "block";
+      } else {
+        countryMessage.innerHTML = "Resposta incorreta!";
+      }
+    }
+
+    function checkScreenshot() {
+      var screenshot = document.getElementById("screenshot").files[0];
+      var screenshotMessage = document.getElementById("screenshotMessage");
+
+      if (screenshot) {
+        // Check if the screenshot is uploaded successfully
+        screenshotMessage.innerHTML = "Imagem enviada com sucesso!";
+        document.getElementById("phase3").style.display = "none";
+        document.getElementById("phase4").style.display = "block";
+        setCalculation();
+      } else {
+        screenshotMessage.innerHTML = "Por favor, envie uma imagem!";
+      }
+    }
+
+    function setCalculation() {
+      var calculations = [
+        "32 X 6",
+        "322 + 322 - 454",
+        "654 + 645"
+      ];
+
+      calculation = calculations[Math.floor(Math.random() * calculations.length)];
+      document.getElementById("calculation").innerHTML = calculation;
+    }
+
+    function checkCalculation() {
+      var result = document.getElementById("result").value;
+      var calculationMessage = document.getElementById("calculationMessage");
+
+      // Check if the result matches the correct answer
+      if (calculation === "32 X 6" && result === "192") {
+        calculationMessage.innerHTML = "Resposta correta!";
+        document.getElementById("phase4").style.display = "none";
+        document.getElementById("phase5").style.display = "block";
+      } else if (calculation === "322 + 322 - 454" && result === "190") {
+        calculationMessage.innerHTML = "Resposta correta!";
+        document.getElementById("phase4").style.display = "none";
+        document.getElementById("phase5").style.display = "block";
+      } else if (calculation === "654 + 645" && result === "1299") {
+        calculationMessage.innerHTML = "Resposta correta!";
+        document.getElementById("phase4").style.display = "none";
+        document.getElementById("phase5").style.display = "block";
+      } else {
+        calculationMessage.innerHTML = "Resposta incorreta!";
+      }
+    }
+
+    function checkGoals() {
+      var goals = document.getElementById("goals").value;
+      var goalsMessage = document.getElementById("goalsMessage");
+
+      if (goals === "445") {
+        goalsMessage.innerHTML = "Parabéns! Você concluiu o quebra-cabeça.";
+        document.getElementById("phase5").style.display = "none";
+        document.getElementById("message").innerHTML = "Acesse nosso Discord para mais informacoes:";
+        document.getElementById("message").innerHTML += "<a href='https://discord.gg/q7gBF6yYP'>Discord</a>";
+      } else {
+        goalsMessage.innerHTML = "Esse nao e o SG do Neymar!";
+      }
+    }
+
+    function generateIncorrectOptions() {
+      // Generate random incorrect options
+      var options = [];
+      var countries = ["Brasil", "Argentina", "Africa"];
+
+      // Shuffle the array
+      for (var i = countries.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var temp = countries[i];
+        countries[i] = countries[j];
+        countries[j] = temp;
+      }
+
+      // Select the first three options as incorrect options
+      for (var i = 0; i < 3; i++) {
+        options.push(countries[i]);
+      }
+
+      return options;
+    }
+  </script>
+</body>
+</html>
